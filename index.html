@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" type="module" defer></script>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- <script src="script.js" type="module" defer></script> -->
     <title>Produce Page</title>
 </head>
 <body>
@@ -15,5 +15,191 @@
         </div>
     </main>
     <footer></footer>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;0,900;1,100&display=swap');
+
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body, html{
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            font-family: "Poppins", Helvetica, sans-serif;
+        }
+        .navbar{
+            height: 60px;
+            background-color: rgb(0, 52, 0);
+        }
+        main{
+            display: flex;
+            flex: 1;
+        }
+        footer{
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            height: 65px;
+            margin-top: auto;
+        }
+        .grid-container{
+            /* border: 1px solid red; */
+            flex: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 450px;
+            gap: 20px;
+        }
+        .crop-card{
+            border-radius: 20px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.142);
+            display: flex;
+            flex-direction: column;
+            transition: all ease-in-out 0.3s;
+        }
+        .crop-card:hover{
+            transform: translateY(-3px) scale(1.03);
+            z-index: 10;
+            position: relative;
+        }
+        .img-wrap{
+            border-radius: 20px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 128, 0, 0.405);
+            color: white;
+        }
+        .info{
+            padding: 15px;
+            flex-direction: column;
+            flex: 1;
+            display: grid;
+        }
+        .name{
+            text-align: center;
+            align-self: center;
+        }
+        .quantity{
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        .number{
+            color: green;
+            font-family: "Poppins", Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        .btn-wrap{
+            display: flex;
+            justify-content: center;
+        }
+        button{
+            width: fit-content;
+            height: fit-content;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background-color: rgba(22, 167, 22, 0.682);
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            align-self: center;
+        }
+        .annot-wrap{
+            display: flex;
+            justify-content: end;
+        }
+        .annot{
+            color: green;
+            font-weight: bold;
+            font-size: .9em;
+            height: fit-content;
+            align-self: flex-end;
+        }
+    </style>
+    <script type="module">
+        import db from "./db.json" assert {type: "json"};
+
+        // initialize variable with array of objects containing crop info
+        const produce = db.CropInventory;
+
+        const gridContainer = document.querySelector(".grid-container");
+
+        // render elements for each crop
+        for(let crop of produce){
+            createCropCard(crop);
+        };
+
+
+        // declare function to display crop
+        function createCropCard(crop){
+            // initialize variables with HTML elements
+            const cropCard = document.createElement("div");
+            const imgWrap = document.createElement("div");
+            // const cropImg = document.createElement("img");
+        
+            // temp
+            const tempDiv = document.createElement("div");
+            const infoDiv = document.createElement("div");
+            const nameWrap = document.createElement("div");
+            const name = document.createElement("p");
+            const quantityWrap = document.createElement("div");
+            const quantity = document.createElement("div");
+            const number = document.createElement("span");
+            const units = document.createElement("p");
+            const btnWrap = document.createElement("div");
+            const btn = document.createElement("button");
+            const annotWrap = document.createElement("div");
+            const annot = document.createElement("p");
+        
+            // set element classes to recieve respective CSS styling
+            cropCard.setAttribute("class", "crop-card");
+            imgWrap.setAttribute("class", "img-wrap");
+            infoDiv.setAttribute("class", "info");
+            nameWrap.setAttribute("class", "name-wrap");
+            name.setAttribute("class", "name");
+            quantityWrap.setAttribute("class", "quantity-wrap");
+            quantity.setAttribute("class", "quantity");
+            number.setAttribute("class", "number");
+            btnWrap.setAttribute("class", "btn-wrap");
+            annotWrap.setAttribute("class", "annot-wrap");
+            annot.setAttribute("class", "annot");
+        
+            // set image source
+            // cropImg.setAttribute("src", "");
+        
+
+            name.textContent = crop.CropType;
+            number.textContent = crop.Quantity;
+            units.textContent = "units";
+            btn.textContent = "Reserve for pickup";
+            annot.textContent = "FREE";
+            tempDiv.textContent = "img placeholder";
+        
+            cropCard.appendChild(imgWrap);
+            cropCard.appendChild(infoDiv);
+            // imgWrap.appendChild(cropImg);
+            imgWrap.appendChild(tempDiv);
+        
+            infoDiv.appendChild(nameWrap);
+            infoDiv.appendChild(quantityWrap);
+            infoDiv.appendChild(btnWrap);
+            infoDiv.appendChild(annotWrap);
+        
+            nameWrap.appendChild(name);
+            quantityWrap.appendChild(quantity);
+            quantity.appendChild(number);
+            quantity.appendChild(units);
+            btnWrap.appendChild(btn);
+            annotWrap.appendChild(annot);
+        
+            gridContainer.appendChild(cropCard);
+        
+        };
+    </script>
 </body>
 </html>
